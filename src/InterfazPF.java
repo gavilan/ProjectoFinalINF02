@@ -114,6 +114,7 @@ public class InterfazPF {
             switch(opc){
                 case 1: 
                     capaLogica.importarTableroJugador10x10CSV();
+                    capaLogica.importarTableroEnemigo10x10CSV();
                     System.out.println();
                     System.out.println("Este es su tablero");
                     System.out.println("********************************");
@@ -121,10 +122,25 @@ public class InterfazPF {
                     System.out.println("********************************");
                     System.out.println("    1  2  3  4  5  6  7  8  9 10");
                     printTableroJugador10x10();
+                    System.out.println();
+                    System.out.println("Este es el tablero del enemigo");
+                    System.out.println("********************************");
+                    System.out.println("******* Tablero Enemigo ********");
+                    System.out.println("********************************");
+                    System.out.println("    1  2  3  4  5  6  7  8  9 10");
+                    printTableroBlank10x10();
+                    for(int i=0;i<5;i++){
+                        System.out.println();
+                        System.out.println("Cual es su ataque #" + (i+1) + " ?");
+                        String ataque = leer.next();
+                        System.out.println("Este es el tablero del enemigo");
+                        System.out.println("********************************");
+                        System.out.println("******* Tablero Enemigo ********");
+                        System.out.println("********************************");
+                        System.out.println("    1  2  3  4  5  6  7  8  9 10");
+                        resultadoAtaque(ataque);
+                    }
                     
-                    System.out.println("Cual es su primer ataque?");
-                    String ataque = leer.next();
-                    resultadoAtaque(ataque);
                     break;
                 case 2:
                     capaLogica.importarTableroJugador20x20CSV();
@@ -154,6 +170,20 @@ public class InterfazPF {
                     break;
             }
         }while ((opc !=1) && (opc !=3) && (opc !=2));
+    }
+    public static void importarTableroBlank10x10(){
+        capaLogica.importarTableroBlank10x10();
+    }
+    static int[][] tableroBlank10x10 = capaLogica.importarTableroBlank10x10();
+    public static void printTableroBlank10x10(){
+        for(int i=0;i<10;i++){
+            System.out.print("["+((char) ('A' + i))+"]" + " ");
+            for(int j=0;j<10;j++){
+                System.out.print(tableroBlank10x10[i][j] + "  ");
+            }
+            System.out.println();
+        }
+        System.out.println("********************************");
     }
     public static void printTableroJugador10x10(){       
         //imprimir el array
@@ -216,6 +246,14 @@ public class InterfazPF {
         capaLogica.obtenerPoscicionEnemigo20x20(rowC,colC);
     }
     public static void resultadoAtaque(String pAtaque){
-        System.out.println(capaLogica.resultadoAtaque(pAtaque.toUpperCase()));
+        capaLogica.resultadoAtaque(pAtaque.toUpperCase());
+        printTableroBlank10x10();
+        if(capaLogica.valorEnemigo!=0){
+            System.out.println("Buen ataque! Usted a undido un barco.");
+        } else {
+            System.out.println("Su bala se undió en lo profundo del oceano, siga intentando.");
+        }
     }
+    
+    
 }
