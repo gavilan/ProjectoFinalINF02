@@ -11,11 +11,14 @@ import java.io.FileReader;
  *
  * @author Gavilan
  */
+
+//Variables Globales
 public class InterfazPF {
     public static Scanner leer;
     //Declaración y conexión con la capa de lógica (Archivo logica.java).
     static logica capaLogica;
     public static String nombre;
+    public static String ataque;
     //    public static final String ANSI_RED_BACKGROUND = "\u001B[41m";
     //    public static final String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
     //    public static final String ANSI_BLUE_BACKGROUND = "\u001B[44m";
@@ -118,6 +121,10 @@ public class InterfazPF {
                     System.out.println("********************************");
                     System.out.println("    1  2  3  4  5  6  7  8  9 10");
                     printTableroJugador10x10();
+                    
+                    System.out.println("Cual es su primer ataque?");
+                    String ataque = leer.next();
+                    resultadoAtaque(ataque);
                     break;
                 case 2:
                     capaLogica.importarTableroJugador20x20CSV();
@@ -207,5 +214,8 @@ public class InterfazPF {
     }
     public static void importarTableroEnemigo20x20(int rowC, int colC){
         capaLogica.obtenerPoscicionEnemigo20x20(rowC,colC);
+    }
+    public static void resultadoAtaque(String pAtaqueSel){
+        System.out.println(capaLogica.resultadoAtaque(pAtaqueSel.toUpperCase()));
     }
 }
