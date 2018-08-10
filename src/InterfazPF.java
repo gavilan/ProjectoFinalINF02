@@ -215,7 +215,7 @@ public class InterfazPF {
     public static void importarTableroEnemigo20x20(int rowC, int colC){
         capaLogica.obtenerPoscicionEnemigo20x20(rowC,colC);
     }
-    public static void resultadoAtaque(String pAtaqueSel){
-        System.out.println(capaLogica.resultadoAtaque(pAtaqueSel.toUpperCase()));
+    public static void resultadoAtaque(String pAtaque){
+        System.out.println(capaLogica.resultadoAtaque(pAtaque.toUpperCase()));
     }
 }
