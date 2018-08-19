@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import java.util.Arrays;
 import java.util.Scanner;
-import java.io.BufferedReader;
-import java.io.FileReader;
 
 /**
  *
@@ -19,11 +18,7 @@ public class InterfazPF {
     static logica capaLogica;
     public static String nombre;
     public static String ataque;
-    //    public static final String ANSI_RED_BACKGROUND = "\u001B[41m";
-    //    public static final String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
-    //    public static final String ANSI_BLUE_BACKGROUND = "\u001B[44m";
-    //    public static final String ANSI_GREEN_BACKGROUND = "\u001B[42m";
-    //    public static final String ANSI_BLACK_BACKGROUND = "\u001B[40m";
+    
     /******************************************************************
     * Método principal.
     *******************************************************************/
@@ -113,75 +108,22 @@ public class InterfazPF {
             opc = leer.nextInt();
             switch(opc){
                 case 1: 
-                    capaLogica.importarTableroJugador10x10CSV();
-                    capaLogica.importarTableroEnemigo10x10CSV();
-                    System.out.println();
-                    System.out.println("Este es tu tablero");
-                    System.out.println("********************************");
-                    System.out.println("******* Tablero Jugador ********");
-                    System.out.println("********************************");
-                    System.out.println("    1  2  3  4  5  6  7  8  9 10");
-                    printTableroJugador10x10();
-                    System.out.println();
-                    System.out.println("Este es el tablero del enemigo");
-                    System.out.println("********************************");
-                    System.out.println("******* Tablero Enemigo ********");
-                    System.out.println("********************************");
-                    System.out.println("    1  2  3  4  5  6  7  8  9 10");
-                    printTableroBlank10x10();
-                    int count = 1;
+                    tablerosIniciales10x10();
                     do {
-                        System.out.println();
-                        System.out.print("Cual es tu ataque #" + (count) + " ? ");
-                        String ataque = leer.next();
-                        System.out.println("Este es el tablero del enemigo");
-                        System.out.println("********************************");
-                        System.out.println("******* Tablero Enemigo ********");
-                        System.out.println("********************************");
-                        System.out.println("    1  2  3  4  5  6  7  8  9 10");
+                        ataqueJugador();
+                        ataqueCompu();
                         resultadoAtaqueJugador(ataque);
-                        System.out.println();
-                        System.out.println("Ataque de la computadora");
-                        System.out.println("Este es el tablero del jugador");
-                        System.out.println("********************************");
-                        System.out.println("******* Tablero Jugador ********");
-                        System.out.println("********************************");
-                        System.out.println("    1  2  3  4  5  6  7  8  9 10");
-                        resultadoAtaqueComputadora();
-                        count++;
-                        System.out.println();
-                        System.out.println("MARCADOR");
-                        System.out.println("**********");
-                        System.out.println("Jugador: "+capaLogica.totalBarcosEnemigo);
-                        System.out.println("Enemigo: "+capaLogica.totalBarcosJugador);
-                        System.out.println("**********");
-                        if(capaLogica.totalBarcosEnemigo == 9){
-                            System.out.println();
-                            System.out.println("****************************************");
-                            System.out.println("************** FELICIDADES *************");
-                            System.out.println("* HAS UNDIDO TODOS LOS BARCOS ENEMIGOS *");
-                            System.out.println("*********** GANASTE EL JUEGO ***********");
-                            System.out.println("****************************************");
-                        } else if(capaLogica.totalBarcosJugador == 9){
-                            System.out.println();
-                            System.out.println("*****************************************");
-                            System.out.println("*************** MALA SUERTE *************");
-                            System.out.println("* EL ENEMIGO HA UNDIDO TODOS TUS BARCOS *");
-                            System.out.println("*********** PERDISTE EL JUEGO ***********");
-                            System.out.println("*****************************************");
-                        }
+                        imprimirMarcador();
                     } while ((capaLogica.totalBarcosEnemigo != 9) && (capaLogica.totalBarcosJugador != 9));
-                    
                     break;
                 case 2:
-                    capaLogica.importarTableroJugador20x20CSV();
-                    System.out.println();
-                    System.out.println("Este es tu tablero");
-                    System.out.println("**************************************************************");
-                    System.out.println("********************** Tablero Jugador ***********************");
-                    System.out.println("**************************************************************");
-                    System.out.println("    1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20");
-                    printTableroJugador20x20();
+                    tablerosIniciales20x20();
+                    do {
+                        ataqueJugador();
+                        ataqueCompu20x20();
+                        resultadoAtaqueJugador20x20(ataque);
+                        imprimirMarcador20x20();
+                    } while ((capaLogica.totalBarcosEnemigo != 18) && (capaLogica.totalBarcosJugador != 18));
                     break;
                 case 3:
                     System.out.println("Estas seguro? (s/n)");
@@ -202,6 +144,8 @@ public class InterfazPF {
             }
         }while ((opc !=1) && (opc !=3) && (opc !=2));
     }
+    
+    //metodo para importar el tablero en blanco del 10x10
     public static void importarTableroBlank10x10(){
         capaLogica.importarTableroBlank10x10();
     }
@@ -232,6 +176,22 @@ public class InterfazPF {
     }
     public static void importarTableroJugador10x10(int rowC, int colC){
         capaLogica.obtenerPoscicionJugador10x10(rowC,colC);
+    }
+    
+    //metodo para importar el tablero en blanco del 20x20
+    public static void importarTableroBlank20x20(){
+        capaLogica.importarTableroBlank20x20();
+    }
+    static int[][] tableroBlank20x20 = capaLogica.importarTableroBlank20x20();
+    public static void printTableroBlank20x20(){
+        for(int i=0;i<20;i++){
+            System.out.print("["+((char) ('A' + i))+"]" + " ");
+            for(int j=0;j<20;j++){
+                System.out.print(tableroBlank20x20[i][j] + "  ");
+            }
+            System.out.println();
+        }
+        System.out.println("****************************************************************");
     }
     
     //importar el tablero del jugador 20x20
@@ -278,23 +238,192 @@ public class InterfazPF {
             }
             System.out.println();
         }
-        System.out.println("********************************");
+        System.out.println("****************************************************************");
         return;
     }
     public static void importarTableroEnemigo20x20(int rowC, int colC){
         capaLogica.obtenerPoscicionEnemigo20x20(rowC,colC);
     }
     
-    //Resultado del ataque del Jugador
+    //Metodo que imprime tableros iniciales 10x10
+    public static void tablerosIniciales10x10(){
+        capaLogica.importarTableroJugador10x10CSV();
+        capaLogica.importarTableroEnemigo10x10CSV();
+        System.out.println();
+        System.out.println("Este es tu tablero");
+        System.out.println("********************************");
+        System.out.println("******* Tablero Jugador ********");
+        System.out.println("********************************");
+        System.out.println("    1  2  3  4  5  6  7  8  9 10");
+        printTableroJugador10x10();
+        System.out.println();
+        System.out.println("Este es el tablero del enemigo");
+        System.out.println("********************************");
+        System.out.println("******* Tablero Enemigo ********");
+        System.out.println("********************************");
+        System.out.println("    1  2  3  4  5  6  7  8  9 10");
+        printTableroBlank10x10();
+    }
+    
+    //metodo tableros iniciales 20x20
+    public static void tablerosIniciales20x20(){
+        capaLogica.importarTableroJugador20x20CSV();
+        capaLogica.importarTableroEnemigo20x20CSV();
+        System.out.println();
+        System.out.println("Este es tu tablero");
+        System.out.println("**************************************************************");
+        System.out.println("********************** Tablero Jugador ***********************");
+        System.out.println("**************************************************************");
+        System.out.println("    1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20");
+        printTableroJugador20x20();
+        System.out.println();
+        System.out.println("Este es el tablero del enemigo");
+        System.out.println("**************************************************************");
+        System.out.println("********************** Tablero Enemigo ***********************");
+        System.out.println("**************************************************************");
+        System.out.println("    1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20");
+        printTableroBlank20x20();
+    }
+    //Metodo para el ataque del jugador
+    public static void ataqueJugador(){
+        System.out.println();
+        System.out.print("Cual es tu ataque: ");
+        ataque = leer.next();
+    }
+        
+    //Metodo para el ataque de la compu
+    public static void ataqueCompu(){
+        System.out.println();
+        System.out.println("Ataque de la computadora");
+        System.out.println("Este es el tablero del jugador");
+        System.out.println("********************************");
+        System.out.println("******* Tablero Jugador ********");
+        System.out.println("********************************");
+        System.out.println("    1  2  3  4  5  6  7  8  9 10");
+        resultadoAtaqueComputadora();
+    }
+    
+    //Metodo para el ataque de la compu 20x20
+    public static void ataqueCompu20x20(){
+        System.out.println();
+        System.out.println("Ataque de la computadora");
+        System.out.println("Este es tu tablero");
+        System.out.println("**************************************************************");
+        System.out.println("********************** Tablero Jugador ***********************");
+        System.out.println("**************************************************************");
+        System.out.println("    1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20");
+        resultadoAtaqueComputadora20x20();
+    }
+    
+    //Metodo para imprimir marcador
+    public static void imprimirMarcador(){
+        System.out.println();
+        System.out.println("MARCADOR");
+        System.out.println("**********");
+        System.out.println("Jugador: "+capaLogica.totalBarcosEnemigo);
+        System.out.println("Enemigo: "+capaLogica.totalBarcosJugador);
+        System.out.println("**********");
+        if(capaLogica.totalBarcosEnemigo == 9){
+            System.out.println();
+            System.out.println("*****************************************");
+            System.out.println("************** FELICIDADES **************");
+            System.out.println("* HAS HUNDIDO TODOS LOS BARCOS ENEMIGOS *");
+            System.out.println("*********** GANASTE EL JUEGO ************");
+            System.out.println("*****************************************");
+        } else if(capaLogica.totalBarcosJugador == 9){
+            System.out.println();
+            System.out.println("******************************************");
+            System.out.println("*************** MALA SUERTE **************");
+            System.out.println("* EL ENEMIGO HA HUNDIDO TODOS TUS BARCOS *");
+            System.out.println("*********** PERDISTE EL JUEGO ************");
+            System.out.println("******************************************");
+        }
+    }
+    
+    //Metodo para imprimir marcador
+    public static void imprimirMarcador20x20(){
+        System.out.println();
+        System.out.println("MARCADOR");
+        System.out.println("**********");
+        System.out.println("Jugador: "+capaLogica.totalBarcosEnemigo);
+        System.out.println("Enemigo: "+capaLogica.totalBarcosJugador);
+        System.out.println("**********");
+        if(capaLogica.totalBarcosEnemigo == 18){
+            System.out.println();
+            System.out.println("*****************************************");
+            System.out.println("************** FELICIDADES **************");
+            System.out.println("* HAS HUNDIDO TODOS LOS BARCOS ENEMIGOS *");
+            System.out.println("*********** GANASTE EL JUEGO ************");
+            System.out.println("*****************************************");
+        } else if(capaLogica.totalBarcosJugador == 18){
+            System.out.println();
+            System.out.println("******************************************");
+            System.out.println("*************** MALA SUERTE **************");
+            System.out.println("* EL ENEMIGO HA HUNDIDO TODOS TUS BARCOS *");
+            System.out.println("*********** PERDISTE EL JUEGO ************");
+            System.out.println("******************************************");
+        }
+    }
+    
+    //Resultado del ataque del Jugador 10x10
     public static void resultadoAtaqueJugador(String pAtaque){
         capaLogica.resultadoAtaqueJugador(pAtaque.toUpperCase());
+        System.out.println();
+        System.out.println("Este es el tablero del enemigo");
+        System.out.println("********************************");
+        System.out.println("******* Tablero Enemigo ********");
+        System.out.println("********************************");
+        System.out.println("    1  2  3  4  5  6  7  8  9 10");
         printTableroBlank10x10();
+        
+//        if(capaLogica.valorAtaqueBlank == 1 || capaLogica.valorAtaqueBlank == 2 || capaLogica.valorAtaqueBlank == 3){
+//            System.out.println();
+//            System.out.print("Ya ese barco esta undido, intenta una posicion nueva: ");
+//            String ataque = leer.next();
+//        } else if(capaLogica.valorAtaqueBlank == 8){
+//            System.out.println();
+//            System.out.print("Ya habias atacado en esa posicion y habias fallado, intenta una nueva: ");
+//            String ataque = leer.next();
+//        }
         if(capaLogica.valorEnemigo!=0){
-            System.out.println("Buen ataque! Has undido un barco.");
-            System.out.println("Total Barcos Undidos: " + capaLogica.totalBarcosEnemigo + " Faltan " + (9-capaLogica.totalBarcosEnemigo) + " Barcos por Undir.");
-        } else {
-            System.out.println("Tu bala se undio en lo profundo del oceano, sigue intentando.");
-            System.out.println("Total Barcos Undidos: " + capaLogica.totalBarcosEnemigo + " Faltan " + (9-capaLogica.totalBarcosEnemigo) + " Barcos por Undir.");
+            System.out.println();
+            System.out.println("Buen ataque! Has hundido un barco.");
+            System.out.println("Total barcos hundidos: " + capaLogica.totalBarcosEnemigo + " faltan " + (9-capaLogica.totalBarcosEnemigo) + " barcos por hundir.");        
+        }else {
+            System.out.println();
+            System.out.println("Tu bala se hundio en lo profundo del oceano, sigue intentando.");
+            System.out.println("Total barcos hundidos: " + capaLogica.totalBarcosEnemigo + " faltan " + (9-capaLogica.totalBarcosEnemigo) + " barcos por hundir.");
+        }
+    }
+    
+    //Resultado ataque jugador 20x20
+    public static void resultadoAtaqueJugador20x20(String pAtaque){
+        capaLogica.resultadoAtaqueJugador20x20(pAtaque.toUpperCase());
+        System.out.println();
+        System.out.println("Este es el tablero del enemigo");
+        System.out.println("**************************************************************");
+        System.out.println("********************** Tablero Enemigo ***********************");
+        System.out.println("**************************************************************");
+        System.out.println("    1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20");
+        printTableroBlank20x20();
+        
+//        if(capaLogica.valorAtaqueBlank == 1 || capaLogica.valorAtaqueBlank == 2 || capaLogica.valorAtaqueBlank == 3){
+//            System.out.println();
+//            System.out.print("Ya ese barco esta undido, intenta una posicion nueva: ");
+//            String ataque = leer.next();
+//        } else if(capaLogica.valorAtaqueBlank == 8){
+//            System.out.println();
+//            System.out.print("Ya habias atacado en esa posicion y habias fallado, intenta una nueva: ");
+//            String ataque = leer.next();
+//        }
+        if(capaLogica.valorEnemigo!=0){
+            System.out.println();
+            System.out.println("Buen ataque! Has hundido un barco.");
+            System.out.println("Total barcos hundidos: " + capaLogica.totalBarcosEnemigo + " faltan " + (18-capaLogica.totalBarcosEnemigo) + " barcos por hundir.");        
+        }else {
+            System.out.println();
+            System.out.println("Tu bala se hundio en lo profundo del oceano, sigue intentando.");
+            System.out.println("Total barcos hundidos: " + capaLogica.totalBarcosEnemigo + " faltan " + (18-capaLogica.totalBarcosEnemigo) + " barcos por hundir.");
         }
     }
     
@@ -303,12 +432,30 @@ public class InterfazPF {
         capaLogica.resultadoAtaqueComputadora();
         printTableroJugador10x10();
         if(capaLogica.valorJugador!=0){
-            System.out.println("La computadora ha atacado y undio uno de sus barcos!");
-            System.out.println("Total Barcos Undidos: " + capaLogica.totalBarcosJugador + " Faltan " + (9-capaLogica.totalBarcosJugador) + " Barcos por Undir.");
+            System.out.println();
+            System.out.println("La computadora ha atacado y hundio uno de sus barcos!");
+            System.out.println("Total barcos hundidos: " + capaLogica.totalBarcosJugador + " faltan " + (9-capaLogica.totalBarcosJugador) + " barcos por hundir.");
         } else {
+            System.out.println();
             System.out.println("La computadora ha atacado... viste la bala pasar cerca ");
             System.out.println("pero no ha pegado ningun barco, te salvaste de esta!");
-            System.out.println("Total Barcos Undidos: " + capaLogica.totalBarcosJugador + " Faltan " + (9-capaLogica.totalBarcosJugador) + " Barcos por Undir.");
+            System.out.println("Total barcos hundidos: " + capaLogica.totalBarcosJugador + " faltan " + (9-capaLogica.totalBarcosJugador) + " barcos por hundir.");
+        }
+    }
+    
+    //Resultado del ataque de la computadora 20x20
+    public static void resultadoAtaqueComputadora20x20(){
+        capaLogica.resultadoAtaqueComputadora20x20();
+        printTableroJugador20x20();
+        if(capaLogica.valorJugador!=0){
+            System.out.println();
+            System.out.println("La computadora ha atacado y hundio uno de sus barcos!");
+            System.out.println("Total barcos hundidos: " + capaLogica.totalBarcosJugador + " faltan " + (18-capaLogica.totalBarcosJugador) + " barcos por hundir.");
+        } else {
+            System.out.println();
+            System.out.println("La computadora ha atacado... viste la bala pasar cerca ");
+            System.out.println("pero no ha pegado ningun barco, te salvaste de esta!");
+            System.out.println("Total barcos hundidos: " + capaLogica.totalBarcosJugador + " faltan " + (18-capaLogica.totalBarcosJugador) + " barcos por hundir.");
         }
     }
     
