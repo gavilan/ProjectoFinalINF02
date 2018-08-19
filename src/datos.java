@@ -60,7 +60,25 @@ public class datos {
         return tableroJugador10x10[rowC][colC];
     }
     
+    public static int obtenerAtaqueJugador10x10(int posY, int posX){
+        return tableroJugador10x10[posY][posX];
+    }
     
+    public static void escribirAtaqueJugador10x10(int posY, int posX, int ataque){
+        tableroJugador10x10[posY][posX] = ataque;
+    }
+    
+    public static int obtenerPosicionJugador20x20(int rowC, int colC){
+        return tableroJugador20x20[rowC][colC];
+    }
+    
+    public static int obtenerAtaqueJugador20x20(int posY, int posX){
+        return tableroJugador20x20[posY][posX];
+    }
+    
+    public static void escribirAtaqueJugador20x20(int posY, int posX, int ataque){
+        tableroJugador20x20[posY][posX] = ataque;
+    }
     
     /***********************************************************************************************
      * Array del enemigo Nivel 2 : 18 barcos
@@ -101,10 +119,6 @@ public class datos {
         } catch (Exception e){
             System.out.println(e);
         }
-    }
-    
-    public static int obtenerPosicionJugador20x20(int rowC, int colC){
-        return tableroJugador20x20[rowC][colC];
     }
     
     /***********************************************************************************************
@@ -197,6 +211,8 @@ public class datos {
         return tableroEnemigo20x20[rowC][colC];
     }
     
+    
+    
     /***********************************************************************************************
      * Array sin ver los barcos para el 10x10 y 20x20
      * todo se ve en 0's
@@ -217,6 +233,15 @@ public class datos {
     public static int[][] obtenerTableroBlank10x10(){
         return tableroBlank10x10;
     }
+    
+    public static int obtenerAtaqueBlank10x10(int posY, int posX){
+        return tableroBlank10x10[posY][posX];
+    }
+    
+    public static void escribirAtaqueBlank10x10(int posY, int posX, int ataque){
+        tableroBlank10x10[posY][posX] = ataque;
+    }
+    
     static int[][] tableroBlank20x20 = new int[][]{
         {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
         {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -239,6 +264,17 @@ public class datos {
         {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
         {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
     };
+    public static int[][] obtenerTableroBlank20x20(){
+        return tableroBlank20x20;
+    }
+    
+    public static int obtenerAtaqueBlank20x20(int posY, int posX){
+        return tableroBlank20x20[posY][posX];
+    }
+    
+    public static void escribirAtaqueBlank20x20(int posY, int posX, int ataque){
+        tableroBlank20x20[posY][posX] = ataque;
+    }
     
     /***********************************************************************************************
      * Llave para determinar que son los numeros en los tableros
